@@ -1,27 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Route } from 'react-router-dom';
 import './ShopPage.styles.scss';
-import SHOP_DATA from '../../data/shop.data';
-import CollectionPreview from '../../components/collection-preview/CollectionPreview.component';
 
-class ShopPage extends Component {
-	constructor(props) {
-		super(props);
+import CollectionsOverview from '../../components/collection-overview/CollectionOverview.component'
+import CollectionsPage from '../collections/CollectionsPage.component'
+const ShopPage = ({match}) => {
+	
+	return (
+		<div className='shop-page'>
+			<Route
+				exact
+				path={`${match.path}`} component={CollectionsOverview}
+				// render={props => (
+				// 	<CollectionsOverviewSpinner
+				// 		isLoading={isCollectionsLoaded}
+				// 		{...props}
+				// 	/>
+				// )}
+			/>
+			<Route
+				path={`${match.path}/:collectionId`} component={CollectionsPage}
+				// render={props => (
+				// 	<CollectionPageSpinner
+				// 		isLoading={!isCollectionsLoaded}
+				// 		{...props}
+				// 	/>
+				// )}
+			/>
+		</div>
+	);
+};
 
-		this.state = {
-			collections: SHOP_DATA,
-		};
-	}
-
-	render() {
-		const { collections } = this.state;
-		return (
-			<div className='shop-page'>
-				{collections.map(({ id, ...collectionProps }) => (
-					<CollectionPreview key={id} {...collectionProps} />
-				))}
-			</div>
-		);
-	}
-}
 
 export default ShopPage;

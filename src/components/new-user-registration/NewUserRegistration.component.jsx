@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import FormInput from '../form-input/FormInput.component';
-// import CustomButton from '../CustomButton/CustomButton.component';
+import CustomButton from '../custom-button/CustomButton.component';
 
-// import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { auth, createUserProfileDocument } from '../../firebase/firebase.utilities';
 
 import './NewUserRegistration.styles.scss';
 
@@ -34,11 +34,11 @@ class NewUserRegistration extends Component {
 		}
 
 		try {
-			// const { user } = await auth.createUserWithEmailAndPassword(
-			// 	email,
-			// 	password
-			// );
-			// await createUserProfileDocument(user, { displayName });
+			const { user } = await auth.createUserWithEmailAndPassword(
+				email,
+				password
+			);
+			await createUserProfileDocument(user, { displayName });
 			this.setState({
 				displayName: '',
 				email: '',
@@ -92,7 +92,7 @@ class NewUserRegistration extends Component {
 						label='Confirm Password:'
 						required
 					/>
-					{/* <CustomButton type='submit'>Sign Up</CustomButton> */}
+					<CustomButton type='submit'>Sign Up</CustomButton>
 				</form>
 			</div>
 		);

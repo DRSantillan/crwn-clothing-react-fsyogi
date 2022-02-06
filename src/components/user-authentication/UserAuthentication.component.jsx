@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FormInput from '../form-input/FormInput.component';
 import CustomButton from '../custom-button/CustomButton.component';
-import { signInWithGoogle } from '../../firebase/firebase.utilities'
+import { auth, signInWithGoogle } from '../../firebase/firebase.utilities'
 import './UserAuthentication.styles.scss';
 
 class UserAuthentication extends Component {
@@ -19,7 +19,7 @@ class UserAuthentication extends Component {
 		const { email, password } = this.state;
 
 		try {
-			//await auth.signInWithEmailAndPassword(email, password);
+			await auth.signInWithEmailAndPassword(email, password);
 			this.setState({ email: '', password: '' });
 		} catch (error) {
 			console.log(error);

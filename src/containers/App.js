@@ -5,13 +5,15 @@ import HomePage from '../pages/home/HomePage.component';
 import ShopPage from '../pages/shop/ShopPage.component';
 import Header from '../components/header/Header.component';
 import RegistrationAuthenticationPage from '../pages/RegistrationAuthentication/RegistrationAuthenticationPage.component';
-import { auth, createUserProfileDocument } from '../firebase/firebase.utilities';
-class App extends Component {
-	constructor() {
-		super();
+import {
+	auth,
+	createUserProfileDocument,
+} from '../firebase/firebase.utilities';
+import { connect } from 'react-redux';
+import { setCurrentUser } from '../redux/user/user.actions';
 
-		this.state = { currentUser: null };
-	}
+class App extends Component {
+	
 	unsubscribeFromAuth = null;
 	componentDidMount = () => {
 		const { setCurrentUser } = this.props;
@@ -44,7 +46,7 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<Header currentUser={this.state.currentUser} />
+				<Header />
 				<Switch>
 					<Route exact path='/' component={HomePage} />
 					<Route path='/shop' component={ShopPage} />
@@ -58,5 +60,11 @@ class App extends Component {
 		);
 	}
 }
-
-export default App;
+// const mapStateToProps = createStructuredSelector({
+// 	currentUser: selectCurrentUser,
+// 	// collectionsArray: selectCollectionsForPreview,
+// });
+const mapDispatchToProps = dispatch => ({
+	setCurrentUser: user => dispatch(setCurrentUser(user)),
+});
+export default connect(null, mapDispatchToProps)(App);

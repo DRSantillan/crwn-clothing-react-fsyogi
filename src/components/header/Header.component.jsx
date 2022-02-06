@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import './Header.styles.scss';
 import { auth } from '../../firebase/firebase.utilities';
+import { connect } from 'react-redux';
 const Header = ({ currentUser, hidden }) => {
 	return (
 		<div className='header'>
@@ -29,5 +30,10 @@ const Header = ({ currentUser, hidden }) => {
 		</div>
 	);
 };
+//
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser,
+	// hidden: selectCartHidden,
+});
 
-export default Header;
+export default connect(mapStateToProps)(Header);

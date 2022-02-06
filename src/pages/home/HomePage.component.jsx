@@ -1,13 +1,14 @@
 import React from 'react';
 
 import Directory from '../../components/directory/Directory.component';
-import './HomePage.styles.scss';
+import HomePageContainer from './HomePage.styled.component';
+// import './HomePage.styles.scss';
 
 const HomePage = () => {
 	return (
-		<div className='homepage'>
+		<HomePageContainer>
 			<Directory />
-		</div>
+		</HomePageContainer>
 	);
 };
 

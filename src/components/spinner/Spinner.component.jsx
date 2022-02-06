@@ -10,6 +10,7 @@ const Spinner = WrappedComponent => {
 			<WrappedComponent {...otherProps} />
 		);
 	};
+	
 };
 
 export default Spinner;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../containers/App.css';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import HomePage from '../pages/home/HomePage.component';
 import ShopPage from '../pages/shop/ShopPage.component';
 import Header from '../components/header/Header.component';
@@ -53,18 +53,24 @@ class App extends Component {
 					<Route
 						exact
 						path='/registration'
-						component={RegistrationAuthenticationPage}
+						render={() =>
+							this.props.currentUser ? (
+								<Redirect to='/' />
+							) : (
+								<RegistrationAuthenticationPage />
+							)
+						}
 					/>
 				</Switch>
 			</div>
 		);
 	}
 }
-// const mapStateToProps = createStructuredSelector({
-// 	currentUser: selectCurrentUser,
-// 	// collectionsArray: selectCollectionsForPreview,
-// });
+const mapStateToProps = ({user}) => ({
+	currentUser: user.currentUser,
+	// collectionsArray: selectCollectionsForPreview,
+});
 const mapDispatchToProps = dispatch => ({
 	setCurrentUser: user => dispatch(setCurrentUser(user)),
 });
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

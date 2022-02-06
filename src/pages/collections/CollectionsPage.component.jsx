@@ -5,7 +5,7 @@ import './CollectionsPage.styles.scss';
 
 import CollectionItem from '../../components/collection-item/CollectionItem.component';
 
-const CollectionPage = ({ collection }) => {
+const CollectionsPage = ({ collection }) => {
 	const { title, items } = collection;
 	return (
 		<div className='collection-page'>
@@ -22,4 +22,4 @@ const CollectionPage = ({ collection }) => {
 const mapStateToProps = (state, ownProps) => ({
 	collection: selectCollection(ownProps.match.params.collectionId)(state),
 });
-export default connect(mapStateToProps)(CollectionPage);
+export default connect(mapStateToProps)(CollectionsPage);

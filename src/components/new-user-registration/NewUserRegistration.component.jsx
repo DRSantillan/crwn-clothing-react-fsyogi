@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import FormInput from '../form-input/FormInput.component';
 import CustomButton from '../custom-button/CustomButton.component';
 
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utilities';
+import { registrationStart } from '../../redux/user/user.actions';
 
 import './NewUserRegistration.styles.scss';
 
@@ -25,7 +26,7 @@ class NewUserRegistration extends Component {
 
 	handleFormSubmission = async event => {
 		event.preventDefault();
-
+		const {registrationStart} = this.props
 		const { displayName, email, password, confirmPassword } = this.state;
 
 		if (password !== confirmPassword) {
@@ -33,21 +34,7 @@ class NewUserRegistration extends Component {
 			return;
 		}
 
-		try {
-			const { user } = await auth.createUserWithEmailAndPassword(
-				email,
-				password
-			);
-			await createUserProfileDocument(user, { displayName });
-			this.setState({
-				displayName: '',
-				email: '',
-				password: '',
-				confirmPassword: '',
-			});
-		} catch (error) {
-			console.log(error);
-		}
+		registrationStart({displayName, email, password})
 	};
 
 	render() {
@@ -99,4 +86,8 @@ class NewUserRegistration extends Component {
 	}
 }
 
-export default NewUserRegistration;
+const mapDispatchToProps = dispatch => ({
+	registrationStart: userCredentials => dispatch(registrationStart(userCredentials))
+})
+
+export default connect(null, mapDispatchToProps) (NewUserRegistration);

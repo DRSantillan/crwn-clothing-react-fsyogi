@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import FormInput from '../form-input/FormInput.component';
 import CustomButton from '../custom-button/CustomButton.component';
-import { auth, signInWithGoogle } from '../../firebase/firebase.utilities'
+// import { auth, signInWithGoogle } from '../../firebase/firebase.utilities'
+import { googleSignInStart, emailSignInStart } from '../../redux/user/user.actions';
 import './UserAuthentication.styles.scss';
 
 class UserAuthentication extends Component {
@@ -16,14 +18,10 @@ class UserAuthentication extends Component {
 	// handles the when a user logs in to site
 	handleSubmitButtonEvent = async event => {
 		event.preventDefault();
+		const {emailSignInStart} = this.props;
 		const { email, password } = this.state;
-
-		try {
-			await auth.signInWithEmailAndPassword(email, password);
-			this.setState({ email: '', password: '' });
-		} catch (error) {
-			console.log(error);
-		}
+		emailSignInStart(email, password)
+		
 	};
 	// handles changes in forms its linked to
 	handleChangeEvent = event => {
@@ -35,6 +33,7 @@ class UserAuthentication extends Component {
 	};
 
 	render() {
+		const {googleSignInStart} = this.props;
 		return (
 			<div className='sign-in'>
 				<h2>I already have an account.</h2>
@@ -60,7 +59,7 @@ class UserAuthentication extends Component {
 					/>
 					<div className='buttons'>
 						<CustomButton type='submit'>Sign In</CustomButton>
-						<CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+						<CustomButton type='button' onClick={googleSignInStart} isGoogleSignIn>
 							Sign In with Google
 						</CustomButton>
 					</div>
@@ -69,5 +68,9 @@ class UserAuthentication extends Component {
 		);
 	}
 }
-
-export default UserAuthentication;
+const mapDispatchToProps = dispatch => ({
+	googleSignInStart: () => dispatch(googleSignInStart()),
+	emailSignInStart: (email, password) =>
+		dispatch(emailSignInStart({email, password})),
+});
+export default connect(null,mapDispatchToProps)(UserAuthentication);
